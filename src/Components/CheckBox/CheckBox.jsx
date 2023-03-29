@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-export default function CheckBox({ name, text }) {
+import "./CheckBox.scss";
+export default function CheckBox({ name, text, State }) {
   const dispatch = useDispatch();
   return (
     <div className="InpBox">
@@ -8,9 +9,18 @@ export default function CheckBox({ name, text }) {
       <input
         type={"checkbox"}
         name={name}
+        checked={State?.Arr?.includes(name)}
         onChange={(e) => {
           if (e.target.checked) {
-            dispatch({ type: "ADD_PROPERTIES", payload: e.target.name });
+            if (e.target.name == "uppercase") {
+              dispatch({ type: "ADD_PROPERTIES", payload: e.target.name });
+              dispatch({ type: "DELETE_PROPERTIES", payload: "lowercase" });
+            } else if (e.target.name == "lowercase") {
+              dispatch({ type: "ADD_PROPERTIES", payload: e.target.name });
+              dispatch({ type: "DELETE_PROPERTIES", payload: "uppercase" });
+            } else {
+              dispatch({ type: "ADD_PROPERTIES", payload: e.target.name });
+            }
           } else {
             dispatch({ type: "DELETE_PROPERTIES", payload: e.target.name });
           }
